@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      users.belongsTo(models.rents, { foreignKey: "user_id" });
+      users.hasMany(models.rents, { foreignKey: "user_id" });
     }
   }
   users.init(
@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "users",
+      timestamps: false
     }
   );
   return users;

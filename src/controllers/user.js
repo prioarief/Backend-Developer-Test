@@ -1,5 +1,6 @@
 const DateFormat = require("../helpers/DateFormat");
 const { getUsers, createUser, getUser, deleteUser, editUser } = require("../services/user");
+const { getRent } = require("../services/rent");
 
 class UserController {
   async editUser(req, res) {
@@ -53,6 +54,22 @@ class UserController {
       await createUser(data);
       data = DateFormat.index(data, "DD-MMMM-YYYY", "dob");
       return res.status(200).json(data);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json(error);
+    }
+  }
+  async getRentByUser(req, res) {
+    try {
+      let data = req.validated;
+      const user = await getUser(data)
+      const rent = await getRent(data)
+      const response = {
+        id: user.id,
+        name: user.name,
+        books: rent
+      }
+      return res.status(200).json(response);
     } catch (error) {
       console.log(error);
       return res.status(500).json(error);
